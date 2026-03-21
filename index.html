@@ -20,7 +20,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const players = {}; // Store player data
-const socket = io('https://your-render-server-url');
+const socket = io('https://astral-forge-studios-github-io.onrender.com/');
 
 function createPlayer(id, x, y, z) {
     const geometry = new THREE.BoxGeometry();
