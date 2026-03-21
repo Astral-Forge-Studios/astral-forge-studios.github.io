@@ -1,13 +1,83 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test hostingu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D FPS Multiplayer Game</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-<h1>✅ Hosting funguje!</h1>
-<p>Pokud tohle vidíš online, všechno je OK.</p>
+const players = {}; // Store player data
+const socket = io('https://your-render-server-url');
 
+function createPlayer(id, x, y, z) {
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const playerMesh = new THREE.Mesh(geometry, material);
+    playerMesh.position.set(x, y, z);
+    players[id] = playerMesh;
+    scene.add(playerMesh);
+}
+
+socket.on('playerSpawn', ({ id, position }) => {
+    createPlayer(id, position.x, position.y, position.z);
+});
+
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+
+animate();
+
+// Player Controls
+const controls = { forward: false, backward: false, left: false, right: false };
+window.addEventListener('keydown', (event) => {
+    switch (event.code) {
+        case 'KeyW': controls.forward = true; break;
+        case 'KeyS': controls.backward = true; break;
+        case 'KeyA': controls.left = true; break;
+        case 'KeyD': controls.right = true; break;
+    }
+});
+window.addEventListener('keyup', (event) => {
+    switch (event.code) {
+        case 'KeyW': controls.forward = false; break;
+        case 'KeyS': controls.backward = false; break;
+        case 'KeyA': controls.left = false; break;
+        case 'KeyD': controls.right = false; break;
+    }
+});
+
+function update() {
+    if (controls.forward) camera.position.z -= 0.1;
+    if (controls.backward) camera.position.z += 0.1;
+    if (controls.left) camera.position.x -= 0.1;
+    if (controls.right) camera.position.x += 0.1;
+}
+
+setInterval(() => {
+    update();
+    socket.emit('playerUpdate', { position: { x: camera.position.x, y: camera.position.y, z: camera.position.z } });
+}, 100);
+
+socket.on('playerUpdate', ({ id, position }) => {
+    if (players[id]) {
+        players[id].position.set(position.x, position.y, position.z);
+    }
+});
+</script>
 </body>
 </html>
