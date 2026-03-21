@@ -1,97 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>3D Shooter s boty</title>
-  <style>body { margin:0; overflow:hidden; }</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist FPS Game</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { background: #000; display: block; }
+    </style>
 </head>
 <body>
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.min.js"></script>
-
-<script>
-// --- SCÉNA A KAMERA ---
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// --- SVĚTLO ---
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5, 10, 5);
-scene.add(light);
-
-// --- MAPA (podlaha) ---
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(50, 50),
-  new THREE.MeshStandardMaterial({ color: 0x555555 })
-);
-floor.rotation.x = -Math.PI/2;
-scene.add(floor);
-
-// --- HRÁČ (kostka) ---
-const player = new THREE.Mesh(
-  new THREE.BoxGeometry(1,1,1),
-  new THREE.MeshStandardMaterial({ color: 0x00ff00 })
-);
-player.position.y = 0.5;
-scene.add(player);
-
-// --- BOTI (červené kostky) ---
-const bots = [];
-for(let i=0;i<5;i++){
-  const bot = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshStandardMaterial({ color: 0xff0000 })
-  );
-  bot.position.set(Math.random()*20-10,0.5,Math.random()*20-10);
-  scene.add(bot);
-  bots.push(bot);
-}
-
-// --- POHYB HRÁČE (WASD) ---
-let keys = {};
-document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
-document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
-
-function movePlayer(){
-  if(keys["w"]) player.position.z -= 0.2;
-  if(keys["s"]) player.position.z += 0.2;
-  if(keys["a"]) player.position.x -= 0.2;
-  if(keys["d"]) player.position.x += 0.2;
-}
-
-// --- BOT AI (chodí směrem k hráči) ---
-function moveBots(){
-  bots.forEach(bot => {
-    const dx = player.position.x - bot.position.x;
-    const dz = player.position.z - bot.position.z;
-    const dist = Math.sqrt(dx*dx + dz*dz);
-    if(dist>0.5){
-      bot.position.x += 0.01*dx/dist;
-      bot.position.z += 0.01*dz/dist;
-    }
-  });
-}
-
-// --- KAMERA ---
-camera.position.y = 5;
-camera.position.z = 10;
-
-// --- ANIMACE ---
-function animate(){
-  requestAnimationFrame(animate);
-  movePlayer();
-  moveBots();
-  camera.position.x = player.position.x;
-  camera.position.z = player.position.z + 10;
-  camera.lookAt(player.position.x, player.position.y, player.position.z);
-  renderer.render(scene, camera);
-}
-
-animate();
-</script>
-
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // Game variables
+        let player = { x: canvas.width / 2, y: canvas.height / 2, width: 30, height: 30, health: 100, ammo: 30, kills: 0 };
+        let bots = [];
+        let bullets = [];
+        
+        // Create bots
+        function createBots(num) {
+            for (let i = 0; i < num; i++) {
+                bots.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, width: 30, height: 30, health: 50 });
+            }
+        }
+        
+        createBots(5);
+        
+        // Control player
+        window.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'w': player.y -= 5; break;
+                case 's': player.y += 5; break;
+                case 'a': player.x -= 5; break;
+                case 'd': player.x += 5; break;
+            }
+        });
+        
+        // Aim and shoot
+        window.addEventListener('click', () => {
+            if (player.ammo > 0) {
+                bullets.push({ x: player.x + player.width / 2, y: player.y, dx: 0, dy: -5 });
+                player.ammo--;
+            }
+        });
+        
+        // Game loop
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw player
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            // Draw bots
+            bots.forEach(bot => {
+                ctx.fillStyle = 'red';
+                ctx.fillRect(bot.x, bot.y, bot.width, bot.height);
+            });
+            // Draw bullets
+            bullets.forEach((bullet, index) => {
+                bullet.y += bullet.dy;
+                ctx.fillStyle = 'yellow';
+                ctx.fillRect(bullet.x, bullet.y, 5, 5);
+                // Check for collision with bots
+                bots.forEach((bot, bIndex) => {
+                    if (bullet.x < bot.x + bot.width && bullet.x + 5 > bot.x &&
+                        bullet.y < bot.y + bot.height && bullet.y + 5 > bot.y) {
+                        bot.health -= 20;
+                        bullets.splice(index, 1);
+                        if (bot.health <= 0) {
+                            bots.splice(bIndex, 1);
+                            player.kills++;
+                        }
+                    }
+                });
+                // Remove bullet if out of bounds
+                if (bullet.y < 0) {
+                    bullets.splice(index, 1);
+                }
+            });
+            // Draw HUD
+            ctx.fillStyle = 'white';
+            ctx.fillText(`Health: ${player.health}`, 10, 20);
+            ctx.fillText(`Ammo: ${player.ammo}`, 10, 40);
+            ctx.fillText(`Kills: ${player.kills}`, 10, 60);
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        gameLoop();
+    </script>
 </body>
 </html>
