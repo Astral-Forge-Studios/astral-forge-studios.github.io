@@ -1,83 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D FPS Multiplayer Game</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+  <meta charset="UTF-8">
+  <title>3D Shooter s boty</title>
+  <style>body { margin:0; overflow:hidden; }</style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.min.js"></script>
+
 <script>
+// --- SCÉNA A KAMERA ---
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const players = {}; // Store player data
-const socket = io('https://astral-forge-studios-github-io.onrender.com/');
+// --- SVĚTLO ---
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 5);
+scene.add(light);
 
-function createPlayer(id, x, y, z) {
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const playerMesh = new THREE.Mesh(geometry, material);
-    playerMesh.position.set(x, y, z);
-    players[id] = playerMesh;
-    scene.add(playerMesh);
+// --- MAPA (podlaha) ---
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(50, 50),
+  new THREE.MeshStandardMaterial({ color: 0x555555 })
+);
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
+
+// --- HRÁČ (kostka) ---
+const player = new THREE.Mesh(
+  new THREE.BoxGeometry(1,1,1),
+  new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+);
+player.position.y = 0.5;
+scene.add(player);
+
+// --- BOTI (červené kostky) ---
+const bots = [];
+for(let i=0;i<5;i++){
+  const bot = new THREE.Mesh(
+    new THREE.BoxGeometry(1,1,1),
+    new THREE.MeshStandardMaterial({ color: 0xff0000 })
+  );
+  bot.position.set(Math.random()*20-10,0.5,Math.random()*20-10);
+  scene.add(bot);
+  bots.push(bot);
 }
 
-socket.on('playerSpawn', ({ id, position }) => {
-    createPlayer(id, position.x, position.y, position.z);
-});
+// --- POHYB HRÁČE (WASD) ---
+let keys = {};
+document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+function movePlayer(){
+  if(keys["w"]) player.position.z -= 0.2;
+  if(keys["s"]) player.position.z += 0.2;
+  if(keys["a"]) player.position.x -= 0.2;
+  if(keys["d"]) player.position.x += 0.2;
+}
+
+// --- BOT AI (chodí směrem k hráči) ---
+function moveBots(){
+  bots.forEach(bot => {
+    const dx = player.position.x - bot.position.x;
+    const dz = player.position.z - bot.position.z;
+    const dist = Math.sqrt(dx*dx + dz*dz);
+    if(dist>0.5){
+      bot.position.x += 0.01*dx/dist;
+      bot.position.z += 0.01*dz/dist;
+    }
+  });
+}
+
+// --- KAMERA ---
+camera.position.y = 5;
+camera.position.z = 10;
+
+// --- ANIMACE ---
+function animate(){
+  requestAnimationFrame(animate);
+  movePlayer();
+  moveBots();
+  camera.position.x = player.position.x;
+  camera.position.z = player.position.z + 10;
+  camera.lookAt(player.position.x, player.position.y, player.position.z);
+  renderer.render(scene, camera);
 }
 
 animate();
-
-// Player Controls
-const controls = { forward: false, backward: false, left: false, right: false };
-window.addEventListener('keydown', (event) => {
-    switch (event.code) {
-        case 'KeyW': controls.forward = true; break;
-        case 'KeyS': controls.backward = true; break;
-        case 'KeyA': controls.left = true; break;
-        case 'KeyD': controls.right = true; break;
-    }
-});
-window.addEventListener('keyup', (event) => {
-    switch (event.code) {
-        case 'KeyW': controls.forward = false; break;
-        case 'KeyS': controls.backward = false; break;
-        case 'KeyA': controls.left = false; break;
-        case 'KeyD': controls.right = false; break;
-    }
-});
-
-function update() {
-    if (controls.forward) camera.position.z -= 0.1;
-    if (controls.backward) camera.position.z += 0.1;
-    if (controls.left) camera.position.x -= 0.1;
-    if (controls.right) camera.position.x += 0.1;
-}
-
-setInterval(() => {
-    update();
-    socket.emit('playerUpdate', { position: { x: camera.position.x, y: camera.position.y, z: camera.position.z } });
-}, 100);
-
-socket.on('playerUpdate', ({ id, position }) => {
-    if (players[id]) {
-        players[id].position.set(position.x, position.y, position.z);
-    }
-});
 </script>
+
 </body>
 </html>
