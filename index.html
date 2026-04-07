@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hry</title>
+<title>Úvodní stránka – Bdinkec</title>
 <style>
 body {
     margin: 0;
@@ -43,6 +43,7 @@ h1 {
 .card:hover {
     border-color: #58a6ff;
     transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(88,166,255,0.4);
 }
 .card h3 {
     margin: 0 0 5px 0;
@@ -67,41 +68,77 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+section { display: none; }
+section.active { display: block; }
+button.backBtn {
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    background: #161b22;
+    border: 1px solid #21262d;
+    color: #c9d1d9;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button.backBtn:hover {
+    background: #21262d;
+}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Hry</h1>
+    <h1>Úvodní stránka – Bdinkec</h1>
 </header>
 
-<div class="grid">
-    <a href="https://kirka.io" class="card"><h3>Kirka.io</h3><p>FPS, Pixelated</p></a>
-    <a href="https://shellshock.io" class="card"><h3>Shell Shockers</h3><p>FPS, Egg-themed</p></a>
-    <a href="https://agar.io" class="card"><h3>Agar.io</h3><p>Cell eating strategy</p></a>
-    <a href="https://kour.io" class="card"><h3>Kour.io</h3><p>Fast-paced shooter</p></a>
-    <a href="https://diep.io" class="card"><h3>Diep.io</h3><p>Tank shooter</p></a>
-    <a href="https://cubes2048.io" class="card"><h3>Cubes 2048.io</h3><p>3D strategy</p></a>
-    <a href="https://smashkarts.com" class="card"><h3>Smash Karts</h3><p>Kart racing battles</p></a>
-    <a href="https://bloxd.io" class="card"><h3>Bloxd.io</h3><p>Minecraft-like multiplayer</p></a>
-    <a href="https://www.torn.com" class="card"><h3>Torn.com</h3><p>Massive text-based RPG</p></a>
-    <a href="https://www.blankmediagames.com/TownOfSalem/" class="card"><h3>Town of Salem</h3><p>Social deduction</p></a>
-    <a href="https://superhotgame.com/play" class="card"><h3>SuperHot</h3><p>Time-based FPS</p></a>
-    <a href="https://www.coolmathgames.com/0-fireboy-and-watergirl-forest-temple" class="card"><h3>Fireboy & Watergirl</h3><p>Co-op puzzle</p></a>
-    <a href="https://www.crazygames.com/game/time-shooter-2" class="card"><h3>Time Shooter 2</h3><p>FPS</p></a>
-    <a href="https://www.coolmathgames.com/0-bloxorz" class="card"><h3>Bloxorz</h3><p>Classic puzzle</p></a>
-    <a href="https://www.coolmathgames.com/0-sugar-sugar" class="card"><h3>Sugar, Sugar</h3><p>Puzzle</p></a>
-    <a href="https://www.kongregate.com/games/dk/chronotron" class="card"><h3>Chronotron</h3><p>Time-travel puzzle</p></a>
-    <a href="https://orteil.dashnet.org/cookieclicker/" class="card"><h3>Cookie Clicker</h3><p>Idle game</p></a>
-    <a href="https://play2048.co/" class="card"><h3>2048</h3><p>Number puzzle</p></a>
-    <a href="https://www.arkadium.com/games/mahjong/" class="card"><h3>Mahjong/Solitaire</h3><p>Casual at Arkadium</p></a>
-    <a href="https://neal.fun/infinite-craft/" class="card"><h3>Infinite Craft</h3><p>Generative puzzle</p></a>
-</div>
+<!-- Úvodní sekce s hlavními kartami -->
+<section id="main" class="active">
+    <div class="grid">
+        <div class="card" onclick="showSection('hry')"><h3>Hry</h3><p>Přejít na online hry</p></div>
+        <a href="https://docs.google.com/document/" target="_blank" class="card"><h3>Word</h3><p>Online textový editor</p></a>
+        <a href="https://docs.google.com/spreadsheets/" target="_blank" class="card"><h3>Excel</h3><p>Online tabulky</p></a>
+        <a href="https://docs.google.com/presentation/" target="_blank" class="card"><h3>PowerPoint</h3><p>Online prezentace</p></a>
+    </div>
+</section>
+
+<!-- Hry sekce -->
+<section id="hry">
+    <button class="backBtn" onclick="showSection('main')">&larr; Zpět</button>
+    <div class="grid">
+        <a href="https://kirka.io" class="card"><h3>Kirka.io</h3><p>FPS, Pixelated</p></a>
+        <a href="https://shellshock.io" class="card"><h3>Shell Shockers</h3><p>FPS, Egg-themed</p></a>
+        <a href="https://agar.io" class="card"><h3>Agar.io</h3><p>Cell eating strategy</p></a>
+        <a href="https://kour.io" class="card"><h3>Kour.io</h3><p>Fast-paced shooter</p></a>
+        <a href="https://diep.io" class="card"><h3>Diep.io</h3><p>Tank shooter</p></a>
+        <a href="https://cubes2048.io" class="card"><h3>Cubes 2048.io</h3><p>3D strategy</p></a>
+        <a href="https://smashkarts.com" class="card"><h3>Smash Karts</h3><p>Kart racing battles</p></a>
+        <a href="https://bloxd.io" class="card"><h3>Bloxd.io</h3><p>Minecraft-like multiplayer</p></a>
+        <a href="https://www.torn.com" class="card"><h3>Torn.com</h3><p>Text-based RPG</p></a>
+        <a href="https://www.blankmediagames.com/TownOfSalem/" class="card"><h3>Town of Salem</h3><p>Social deduction</p></a>
+        <a href="https://superhotgame.com/play" class="card"><h3>SuperHot</h3><p>Time-based FPS</p></a>
+        <a href="https://www.coolmathgames.com/0-fireboy-and-watergirl-forest-temple" class="card"><h3>Fireboy & Watergirl</h3><p>Co-op puzzle</p></a>
+        <a href="https://www.crazygames.com/game/time-shooter-2" class="card"><h3>Time Shooter 2</h3><p>FPS</p></a>
+        <a href="https://www.coolmathgames.com/0-bloxorz" class="card"><h3>Bloxorz</h3><p>Classic puzzle</p></a>
+        <a href="https://www.coolmathgames.com/0-sugar-sugar" class="card"><h3>Sugar, Sugar</h3><p>Puzzle</p></a>
+        <a href="https://www.kongregate.com/games/dk/chronotron" class="card"><h3>Chronotron</h3><p>Time-travel puzzle</p></a>
+        <a href="https://orteil.dashnet.org/cookieclicker/" class="card"><h3>Cookie Clicker</h3><p>Idle game</p></a>
+        <a href="https://play2048.co/" class="card"><h3>2048</h3><p>Number puzzle</p></a>
+        <a href="https://www.arkadium.com/games/mahjong/" class="card"><h3>Mahjong/Solitaire</h3><p>Casual at Arkadium</p></a>
+        <a href="https://neal.fun/infinite-craft/" class="card"><h3>Infinite Craft</h3><p>Generative puzzle</p></a>
+    </div>
+</section>
 
 <footer>
     © 2026 Bdinkec – vytvořeno pro tajné hraní v hodinách informatiky – 
     Powered by <a href="https://www.youtube.com/@bdinkeckanal" target="_blank">Bdinkec kanál</a>
 </footer>
+
+<script>
+function showSection(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
 
 </body>
 </html>
