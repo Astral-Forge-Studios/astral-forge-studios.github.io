@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Úvodní stránka – Bdinkec</title>
+<title>Hry – Bdinkec</title>
 <style>
 body {
     margin: 0;
@@ -68,41 +68,15 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
-section { display: none; }
-section.active { display: block; }
-button.backBtn {
-    margin-bottom: 20px;
-    padding: 8px 15px;
-    background: #161b22;
-    border: 1px solid #21262d;
-    color: #c9d1d9;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button.backBtn:hover {
-    background: #21262d;
-}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Úvodní stránka – Bdinkec</h1>
+    <h1>Hry – Bdinkec</h1>
 </header>
 
-<!-- Úvodní sekce s hlavními kartami -->
-<section id="main" class="active">
-    <div class="grid">
-        <div class="card" onclick="showSection('hry')"><h3>Hry</h3><p>Přejít na online hry</p></div>
-        <a href="https://docs.google.com/document/" target="_blank" class="card"><h3>Word</h3><p>Online textový editor</p></a>
-        <a href="https://docs.google.com/spreadsheets/" target="_blank" class="card"><h3>Excel</h3><p>Online tabulky</p></a>
-        <a href="https://docs.google.com/presentation/" target="_blank" class="card"><h3>PowerPoint</h3><p>Online prezentace</p></a>
-    </div>
-</section>
-
-<!-- Hry sekce -->
-<section id="hry">
-    <button class="backBtn" onclick="showSection('main')">&larr; Zpět</button>
+<section id="hry" style="display:block;">
     <div class="grid">
         <a href="https://kirka.io" class="card"><h3>Kirka.io</h3><p>FPS, Pixelated</p></a>
         <a href="https://shellshock.io" class="card"><h3>Shell Shockers</h3><p>FPS, Egg-themed</p></a>
@@ -124,6 +98,7 @@ button.backBtn:hover {
         <a href="https://play2048.co/" class="card"><h3>2048</h3><p>Number puzzle</p></a>
         <a href="https://www.arkadium.com/games/mahjong/" class="card"><h3>Mahjong/Solitaire</h3><p>Casual at Arkadium</p></a>
         <a href="https://neal.fun/infinite-craft/" class="card"><h3>Infinite Craft</h3><p>Generative puzzle</p></a>
+        <a href="https://www.1001hry.cz/akcni/hazmob-fps" class="card"><h3>Hazmob FPS</h3><p>CS:GO like FPS</p></a>
     </div>
 </section>
 
@@ -131,14 +106,6 @@ button.backBtn:hover {
     © 2026 Bdinkec – vytvořeno pro tajné hraní v hodinách informatiky – 
     Powered by <a href="https://www.youtube.com/@bdinkeckanal" target="_blank">Bdinkec kanál</a>
 </footer>
-
-<script>
-function showSection(id) {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
-}
-</script>
 
 </body>
 </html>
