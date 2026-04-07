@@ -104,9 +104,8 @@ footer a:hover {
 
 <!-- Tajné přesměrování -->
 <script>
-const params = new URLSearchParams(window.location.search);
-if (params.get('secret') === 'video') {
-    window.location.href = "https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle";
+if (window.location.href === "https://astral-forge-studios.github.io/meme?secret=video") {
+    window.location.replace("https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle");
 }
 </script>
 
