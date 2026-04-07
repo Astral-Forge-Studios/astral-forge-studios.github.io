@@ -68,11 +68,6 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
-video {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-}
 </style>
 </head>
 <body>
@@ -107,13 +102,13 @@ video {
     </div>
 </section>
 
-<!-- VIDEO sekce (pouze přes přímý odkaz) -->
-<section id="video">
-    <video autoplay muted loop controls>
-        <source src="https://raw.githubusercontent.com/Astral-Forge-Studios/astral-forge-studios.github.io/blob/main/video.mp4" type="video/mp4">
-        Tvůj prohlížeč nepodporuje video tag.
-    </video>
-</section>
+<!-- Tajné přesměrování -->
+<script>
+const params = new URLSearchParams(window.location.search);
+if (params.get('secret') === 'video') {
+    window.location.href = "https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle";
+}
+</script>
 
 <footer>
     © 2026 Bdinkec – vytvořeno pro tajné hraní v hodinách informatiky – 
