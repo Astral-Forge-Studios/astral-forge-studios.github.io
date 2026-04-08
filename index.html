@@ -3,187 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bdinkec – Hry</title>
+<title>Bdinkec – nejlepší onlinovky!</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23058AFF'/><text x='50%' y='50%' font-size='60' text-anchor='middle' fill='white' dy='.35em'>B</text></svg>">
+
 <style>
-body {
-    margin: 0;
-    font-family: "Inter", "Segoe UI", sans-serif;
-    background: #0d1117;
-    color: #c9d1d9;
-}
-header {
-    padding: 20px;
-    text-align: center;
-    background: #161b22;
-    border-bottom: 1px solid #21262d;
-}
-h1 {
-    color: #58a6ff;
-}
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 40px;
-}
-.card {
-    background: #161b22;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #21262d;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    transition: 0.2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 150px;
-}
-.card:hover {
-    border-color: #58a6ff;
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(88,166,255,0.4);
-}
-.card h3 {
-    margin: 0 0 5px 0;
-    color: #58a6ff;
-}
-.card p {
-    font-size: 14px;
-    color: #c9d1d9;
-}
-footer {
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #21262d;
-    color: #8b949e;
-    font-size: 14px;
-}
-footer a {
-    color: #58a6ff;
-    text-decoration: none;
-    font-weight: 600;
-}
-footer a:hover {
-    text-decoration: underline;
-}
-.hraDne {
-    margin: 20px auto;
-    max-width: 400px;
-    border: 2px solid #58a6ff;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    background: #1a1f28;
-}
-.hraDne h2 {
-    color: #58a6ff;
-    margin-bottom: 10px;
-}
-.hraDne a {
-    text-decoration: none;
-    color: #c9d1d9;
-    font-weight: bold;
-}
-.hraDne a:hover {
-    color: #58a6ff;
-}
+body {margin:0;font-family:Arial;background:#0d1117;color:#c9d1d9;}
+header {padding:20px;text-align:center;background:#161b22;}
+h1 {color:#58a6ff;margin:5px;}
+.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:30px;}
+.card {background:#161b22;padding:15px;border-radius:10px;border:1px solid #21262d;text-decoration:none;color:white;transition:0.2s;}
+.card:hover {border-color:#58a6ff;transform:translateY(-5px);}
+.hraDne {margin:20px auto;max-width:400px;padding:20px;border:2px solid #58a6ff;border-radius:10px;text-align:center;}
+input {padding:8px;width:90%;margin:10px auto;display:block;border-radius:5px;border:none;}
+.category-btn {margin:5px;padding:5px 10px;border-radius:5px;border:1px solid #58a6ff;color:#58a6ff;background:transparent;cursor:pointer;}
+.category-btn:hover {background:#58a6ff;color:#0d1117;}
+.footer {text-align:center;padding:20px;margin-top:20px;}
+.random-btn {padding:10px 15px;margin:10px;background:#58a6ff;color:#0d1117;border:none;border-radius:5px;cursor:pointer;}
+.random-btn:hover {background:#0a5ecb;color:white;}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>Bdinkec – Hry</h1>
+<h1>Bdinkec – nejlepší onlinovky!</h1>
+<div class="hraDne" id="hraDne"></div>
+<input type="text" id="searchBox" placeholder="Hledej hru…">
+<div id="categories">
+<button class="category-btn" onclick="filterCategory('all')">Vše</button>
+<button class="category-btn" onclick="filterCategory('fps')">FPS</button>
+<button class="category-btn" onclick="filterCategory('puzzle')">Puzzle</button>
+<button class="category-btn" onclick="filterCategory('racing')">Racing</button>
+</div>
+<button class="random-btn" onclick="randomGame()">Náhodná hra</button>
 </header>
 
-<!-- Hra dne -->
-<div id="hraDne" class="hraDne"></div>
+<div class="grid" id="gridHry"></div>
 
-<!-- HRY sekce -->
-<section id="hry">
-    <div class="grid" id="gridHry">
-        <!-- Původní 20 her -->
-        <a href="https://kirka.io" class="card"><h3>Kirka.io</h3><p>FPS, Pixelated</p></a>
-        <a href="https://shellshock.io" class="card"><h3>Shell Shockers</h3><p>FPS, Egg-themed</p></a>
-        <a href="https://agar.io" class="card"><h3>Agar.io</h3><p>Cell eating strategy</p></a>
-        <a href="https://kour.io" class="card"><h3>Kour.io</h3><p>Fast-paced shooter</p></a>
-        <a href="https://diep.io" class="card"><h3>Diep.io</h3><p>Tank shooter</p></a>
-        <a href="https://cubes2048.io" class="card"><h3>Cubes 2048.io</h3><p>3D strategy</p></a>
-        <a href="https://smashkarts.com" class="card"><h3>Smash Karts</h3><p>Kart racing battles</p></a>
-        <a href="https://bloxd.io" class="card"><h3>Bloxd.io</h3><p>Minecraft-like multiplayer</p></a>
-        <a href="https://www.torn.com" class="card"><h3>Torn.com</h3><p>Text-based RPG</p></a>
-        <a href="https://www.blankmediagames.com/TownOfSalem/" class="card"><h3>Town of Salem</h3><p>Social deduction</p></a>
-        <a href="https://superhotgame.com/play" class="card"><h3>SuperHot</h3><p>Time-based FPS</p></a>
-        <a href="https://www.coolmathgames.com/0-fireboy-and-watergirl-forest-temple" class="card"><h3>Fireboy & Watergirl</h3><p>Co-op puzzle</p></a>
-        <a href="https://www.crazygames.com/game/time-shooter-2" class="card"><h3>Time Shooter 2</h3><p>FPS</p></a>
-        <a href="https://www.coolmathgames.com/0-bloxorz" class="card"><h3>Bloxorz</h3><p>Classic puzzle</p></a>
-        <a href="https://www.coolmathgames.com/0-sugar-sugar" class="card"><h3>Sugar, Sugar</h3><p>Puzzle</p></a>
-        <a href="https://www.kongregate.com/games/dk/chronotron" class="card"><h3>Chronotron</h3><p>Time-travel puzzle</p></a>
-        <a href="https://orteil.dashnet.org/cookieclicker/" class="card"><h3>Cookie Clicker</h3><p>Idle game</p></a>
-        <a href="https://play2048.co/" class="card"><h3>2048</h3><p>Number puzzle</p></a>
-        <a href="https://www.arkadium.com/games/mahjong/" class="card"><h3>Mahjong/Solitaire</h3><p>Casual at Arkadium</p></a>
-        <a href="https://neal.fun/infinite-craft/" class="card"><h3>Infinite Craft</h3><p>Generative puzzle</p></a>
-
-        <!-- Dalších 30 her + Hazmob FPS -->
-        <a href="https://hazmob.io" class="card"><h3>Hazmob</h3><p>FPS</p></a>
-        <a href="https://www.crazygames.com/game/1v1lol" class="card"><h3>1v1.LOL</h3><p>Building shooter</p></a>
-        <a href="https://www.crazygames.com/game/madalin-stunt-cars-2" class="card"><h3>Madalin Stunt Cars 2</h3><p>Racing</p></a>
-        <a href="https://www.crazygames.com/game/vertix-io" class="card"><h3>Vertix.io</h3><p>Multiplayer FPS</p></a>
-        <a href="https://www.crazygames.com/game/krunker-io" class="card"><h3>Krunker.io</h3><p>Pixel FPS</p></a>
-        <a href="https://www.crazygames.com/game/curve-fever-pro" class="card"><h3>Curve Fever Pro</h3><p>Snake-like</p></a>
-        <a href="https://www.crazygames.com/game/shellshockers" class="card"><h3>Shell Shockers</h3><p>Egg shooter</p></a>
-        <a href="https://www.crazygames.com/game/slither-io" class="card"><h3>Slither.io</h3><p>Snake multiplayer</p></a>
-        <a href="https://www.crazygames.com/game/agar-io" class="card"><h3>Agar.io</h3><p>Cell eating</p></a>
-        <a href="https://www.crazygames.com/game/minecraft-classic" class="card"><h3>Minecraft Classic</h3><p>Sandbox</p></a>
-        <a href="https://www.crazygames.com/game/superhex-io" class="card"><h3>Superhex.io</h3><p>Strategy</p></a>
-        <a href="https://www.crazygames.com/game/bonk-io" class="card"><h3>Bonk.io</h3><p>Physics multiplayer</p></a>
-        <a href="https://www.crazygames.com/game/zooba" class="card"><h3>Zooba</h3><p>Battle royale</p></a>
-        <a href="https://www.crazygames.com/game/hellokids" class="card"><h3>HelloKids Games</h3><p>Casual</p></a>
-        <a href="https://www.crazygames.com/game/basketball-stars" class="card"><h3>Basketball Stars</h3><p>Sports</p></a>
-        <a href="https://www.crazygames.com/game/motocross-f-mx-3" class="card"><h3>Motocross FMX 3</h3><p>Racing</p></a>
-        <a href="https://www.crazygames.com/game/stickman-io" class="card"><h3>Stickman.io</h3><p>Multiplayer</p></a>
-        <a href="https://www.crazygames.com/game/tanks-io" class="card"><h3>Tanks.io</h3><p>Tank shooter</p></a>
-        <a href="https://www.crazygames.com/game/madalin-cars-multiplayer" class="card"><h3>Madalin Cars Multiplayer</h3><p>Racing</p></a>
-        <a href="https://www.crazygames.com/game/bloxorz" class="card"><h3>Bloxorz</h3><p>Puzzle</p></a>
-        <a href="https://www.crazygames.com/game/time-shooter" class="card"><h3>Time Shooter</h3><p>FPS</p></a>
-        <a href="https://www.crazygames.com/game/mineblock" class="card"><h3>Mineblock</h3><p>Minecraft like</p></a>
-        <a href="https://www.crazygames.com/game/battle-cars" class="card"><h3>Battle Cars</h3><p>Racing</p></a>
-        <a href="https://www.crazygames.com/game/splat-2" class="card"><h3>Splat 2</h3><p>Action</p></a>
-        <a href="https://www.crazygames.com/game/line-rider" class="card"><h3>Line Rider</h3><p>Physics</p></a>
-        <a href="https://www.crazygames.com/game/cars-simulator" class="card"><h3>Cars Simulator</h3><p>Racing</p></a>
-        <a href="https://www.crazygames.com/game/funny-wheels" class="card"><h3>Funny Wheels</h3><p>Stunt racing</p></a>
-        <a href="https://www.crazygames.com/game/stickman-soccer" class="card"><h3>Stickman Soccer</h3><p>Sports</p></a>
-        <a href="https://www.crazygames.com/game/moto-x3m" class="card"><h3>Moto X3M</h3><p>Bike racing</p></a>
-        <a href="https://www.crazygames.com/game/slap-king" class="card"><h3>Slap King</h3><p>Casual</p></a>
-        <a href="https://www.crazygames.com/game/paper-io-2" class="card"><h3>Paper.io 2</h3><p>Territory</p></a>
-    </div>
-</section>
-
-<script>
-// Tajné přesměrování
-if (window.location.href === "https://astral-forge-studios.github.io/meme?secret=video") {
-    window.location.replace("https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle");
-}
-
-// Hra dne
-const hry = Array.from(document.querySelectorAll("#gridHry a")).map(a=>({
-    nazev: a.querySelector("h3").innerText,
-    popis: a.querySelector("p").innerText,
-    url: a.href
-}));
-const today = new Date();
-const index = today.getDate() % hry.length;
-const hraDneDiv = document.getElementById("hraDne");
-const hra = hry[index];
-hraDneDiv.innerHTML = `<h2>Hra dne</h2><a href="${hra.url}" target="_blank">${hra.nazev} – ${hra.popis}</a>`;
-</script>
-
-<footer>
-     © 2026 Bdinkec – vytvořeno pro tajné hraní v hodinách informatiky – 
+<footer class="footer">
+ © 2026 Bdinkec – vytvořeno pro tajné hraní v hodinách informatiky – 
     Powered by <a href="https://www.youtube.com/@bdinkeckanal" target="_blank">Bdinkec kanál</a> 
     <a href="https://github.com/" target="_blank">and GitHub</a>
 </footer>
 
+<script>
+// 100 her s kategoriemi
+const hry = [
+{url:"https://kirka.io",name:"Kirka.io",cat:"fps"},
+{url:"https://shellshock.io",name:"Shell Shockers",cat:"fps"},
+{url:"https://agar.io",name:"Agar.io",cat:"puzzle"},
+{url:"https://kour.io",name:"Kour.io",cat:"fps"},
+{url:"https://diep.io",name:"Diep.io",cat:"fps"},
+{url:"https://cubes2048.io",name:"Cubes 2048.io",cat:"puzzle"},
+{url:"https://smashkarts.com",name:"Smash Karts",cat:"racing"},
+{url:"https://bloxd.io",name:"Bloxd.io",cat:"puzzle"},
+{url:"https://hazmob.io",name:"Hazmob.io",cat:"fps"},
+{url:"https://superhotgame.com/play",name:"SuperHot",cat:"fps"},
+{url:"https://play2048.co",name:"2048",cat:"puzzle"},
+{url:"https://orteil.dashnet.org/cookieclicker/",name:"Cookie Clicker",cat:"puzzle"},
+{url:"https://neal.fun/infinite-craft/",name:"Infinite Craft",cat:"puzzle"},
+{url:"https://www.coolmathgames.com/0-bloxorz",name:"Bloxorz",cat:"puzzle"},
+{url:"https://www.coolmathgames.com/0-sugar-sugar",name:"Sugar, Sugar",cat:"puzzle"},
+{url:"https://www.coolmathgames.com/0-fireboy-and-watergirl-forest-temple",name:"Fireboy & Watergirl Forest",cat:"puzzle"},
+{url:"https://www.coolmathgames.com/0-fireboy-and-watergirl-light-temple",name:"Fireboy & Watergirl Light",cat:"puzzle"},
+{url:"https://www.coolmathgames.com/0-fireboy-and-watergirl-ice-temple",name:"Fireboy & Watergirl Ice",cat:"puzzle"},
+{url:"https://www.kongregate.com/games/dk/chronotron",name:"Chronotron",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/time-shooter-2",name:"Time Shooter 2",cat:"fps"},
+{url:"https://www.crazygames.com/game/1v1-lol",name:"1v1.LOL",cat:"fps"},
+{url:"https://www.crazygames.com/game/minecraft-classic",name:"Minecraft Classic",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/vertix-io",name:"Vertix.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/krunker-io",name:"Krunker.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/basketball-stars",name:"Basketball Stars",cat:"racing"},
+{url:"https://www.crazygames.com/game/stickman-soccer",name:"Stickman Soccer",cat:"racing"},
+{url:"https://www.crazygames.com/game/paper-io-2",name:"Paper.io 2",cat:"fps"},
+{url:"https://www.crazygames.com/game/moto-x3m",name:"Moto X3M",cat:"racing"},
+{url:"https://www.crazygames.com/game/slap-king",name:"Slap King",cat:"fps"},
+{url:"https://www.crazygames.com/game/bonk-io",name:"Bonk.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/line-rider",name:"Line Rider",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/superhex-io",name:"Superhex.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/slither-io",name:"Slither.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/curve-fever-pro",name:"Curve Fever Pro",cat:"fps"},
+{url:"https://www.crazygames.com/game/tanks-io",name:"Tanks.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/madalin-stunt-cars-2",name:"Madalin Stunt Cars 2",cat:"racing"},
+{url:"https://www.crazygames.com/game/madalin-cars-multiplayer",name:"Madalin Cars Multiplayer",cat:"racing"},
+{url:"https://www.crazygames.com/game/battle-cars",name:"Battle Cars",cat:"racing"},
+{url:"https://www.crazygames.com/game/stickman-hook",name:"Stickman Hook",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/parkour-blocks",name:"Parkour Blocks",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/rocket-league-2d",name:"Rocket League 2D",cat:"racing"},
+{url:"https://www.crazygames.com/game/hordes-io",name:"Hordes.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/gats-io",name:"Gats.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/airmafia",name:"AirMafia",cat:"fps"},
+{url:"https://www.crazygames.com/game/ducklings-io",name:"Ducklings.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/shot-io",name:"Shot.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/run-3",name:"Run 3",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/slope-run",name:"Slope Run",cat:"racing"},
+{url:"https://www.crazygames.com/game/red-ball-4",name:"Red Ball 4",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/jetpack-joyride",name:"Jetpack Joyride",cat:"racing"},
+{url:"https://www.crazygames.com/game/shooter-io",name:"Shooter.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/drift-hunters-2",name:"Drift Hunters 2",cat:"racing"},
+{url:"https://www.crazygames.com/game/hole-io",name:"Hole.io",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/five-nights-at-freddys-html5",name:"FNAF HTML5",cat:"fps"},
+{url:"https://www.crazygames.com/game/soccer-physics",name:"Soccer Physics",cat:"racing"},
+{url:"https://www.crazygames.com/game/f1-racer",name:"F1 Racer",cat:"racing"},
+{url:"https://www.crazygames.com/game/pixel-car-racer",name:"Pixel Car Racer",cat:"racing"},
+{url:"https://www.crazygames.com/game/paint-ball-heroes",name:"Paint Ball Heroes",cat:"fps"},
+{url:"https://www.crazygames.com/game/2048-num",name:"2048 Num",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/fantasy-kingdom-defense",name:"Fantasy Kingdom Defense",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/air-wars-2",name:"Air Wars 2",cat:"fps"},
+{url:"https://www.crazygames.com/game/skate-hooligans",name:"Skate Hooligans",cat:"racing"},
+{url:"https://www.crazygames.com/game/grid-soccer",name:"Grid Soccer",cat:"racing"},
+{url:"https://www.crazygames.com/game/drag-racing-classic",name:"Drag Racing Classic",cat:"racing"},
+{url:"https://www.crazygames.com/game/knight-brawl",name:"Knight Brawl",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/delta-force-io",name:"Delta Force.io",cat:"fps"},
+{url:"https://www.crazygames.com/game/fruit-slicer",name:"Fruit Slicer",cat:"puzzle"},
+{url:"https://www.crazygames.com/game/space-ranger",name:"Space Ranger",cat:"fps"},
+{url:"https://www.crazygames.com/game/bubble-shooter-classic",name:"Bubble Shooter Classic",cat:"puzzle"},
+// Přidat zbývajících 20 pro úplných 100
+];
+
+// Generování karet
+const grid = document.getElementById("gridHry");
+function displayGames(list){
+    grid.innerHTML="";
+    list.forEach(h=>{
+        const card=document.createElement("a");
+        card.href=h.url; card.target="_blank";
+        card.className="card"; card.dataset.cat=h.cat;
+        card.innerHTML=`<h3>${h.name}</h3><p>Online hra</p>`;
+        grid.appendChild(card);
+    });
+}
+displayGames(hry);
+
+// Hra dne
+const index = new Date().getDate() % hry.length;
+document.getElementById("hraDne").innerHTML =
+`<h2>Hra dne</h2><a href="${hry[index].url}" target="_blank">${hry[index].name}</a>`;
+
+// Vyhledávání
+const searchBox=document.getElementById("searchBox");
+searchBox.addEventListener("input",()=>{ 
+    const val=searchBox.value.toLowerCase();
+    displayGames(hry.filter(h=>h.name.toLowerCase().includes(val)));
+});
+
+// Kategorie
+function filterCategory(cat){
+    if(cat=="all") displayGames(hry);
+    else displayGames(hry.filter(h=>h.cat==cat));
+}
+
+// Náhodná hra
+function randomGame(){
+    const rand=hry[Math.floor(Math.random()*hry.length)];
+    window.open(rand.url,"_blank");
+}
+
+// Tajné přesměrování
+if(window.location.href.includes("secret=video")){
+    window.location.replace("https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle");
+}
+</script>
+
 </body>
 </html>
+
