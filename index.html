@@ -68,6 +68,27 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+.hraDne {
+    margin: 20px auto;
+    max-width: 400px;
+    border: 2px solid #58a6ff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    background: #1a1f28;
+}
+.hraDne h2 {
+    color: #58a6ff;
+    margin-bottom: 10px;
+}
+.hraDne a {
+    text-decoration: none;
+    color: #c9d1d9;
+    font-weight: bold;
+}
+.hraDne a:hover {
+    color: #58a6ff;
+}
 </style>
 </head>
 <body>
@@ -76,9 +97,12 @@ footer a:hover {
     <h1>Bdinkec – Hry</h1>
 </header>
 
+<!-- Hra dne -->
+<div id="hraDne" class="hraDne"></div>
+
 <!-- HRY sekce -->
 <section id="hry">
-    <div class="grid">
+    <div class="grid" id="gridHry">
         <a href="https://kirka.io" class="card"><h3>Kirka.io</h3><p>FPS, Pixelated</p></a>
         <a href="https://shellshock.io" class="card"><h3>Shell Shockers</h3><p>FPS, Egg-themed</p></a>
         <a href="https://agar.io" class="card"><h3>Agar.io</h3><p>Cell eating strategy</p></a>
@@ -104,9 +128,40 @@ footer a:hover {
 
 <!-- Tajné přesměrování -->
 <script>
+// Přesměrování na Jumpshare
 if (window.location.href === "https://astral-forge-studios.github.io/meme?secret=video") {
     window.location.replace("https://jumpshare.com/share/df2V0E9yIw7GlKikRbWjle");
 }
+
+// Funkce Hra dne
+const hry = [
+    {nazev: "Kirka.io", popis: "FPS, Pixelated", url: "https://kirka.io"},
+    {nazev: "Shell Shockers", popis: "FPS, Egg-themed", url: "https://shellshock.io"},
+    {nazev: "Agar.io", popis: "Cell eating strategy", url: "https://agar.io"},
+    {nazev: "Kour.io", popis: "Fast-paced shooter", url: "https://kour.io"},
+    {nazev: "Diep.io", popis: "Tank shooter", url: "https://diep.io"},
+    {nazev: "Cubes 2048.io", popis: "3D strategy", url: "https://cubes2048.io"},
+    {nazev: "Smash Karts", popis: "Kart racing battles", url: "https://smashkarts.com"},
+    {nazev: "Bloxd.io", popis: "Minecraft-like multiplayer", url: "https://bloxd.io"},
+    {nazev: "Torn.com", popis: "Text-based RPG", url: "https://www.torn.com"},
+    {nazev: "Town of Salem", popis: "Social deduction", url: "https://www.blankmediagames.com/TownOfSalem/"},
+    {nazev: "SuperHot", popis: "Time-based FPS", url: "https://superhotgame.com/play"},
+    {nazev: "Fireboy & Watergirl", popis: "Co-op puzzle", url: "https://www.coolmathgames.com/0-fireboy-and-watergirl-forest-temple"},
+    {nazev: "Time Shooter 2", popis: "FPS", url: "https://www.crazygames.com/game/time-shooter-2"},
+    {nazev: "Bloxorz", popis: "Classic puzzle", url: "https://www.coolmathgames.com/0-bloxorz"},
+    {nazev: "Sugar, Sugar", popis: "Puzzle", url: "https://www.coolmathgames.com/0-sugar-sugar"},
+    {nazev: "Chronotron", popis: "Time-travel puzzle", url: "https://www.kongregate.com/games/dk/chronotron"},
+    {nazev: "Cookie Clicker", popis: "Idle game", url: "https://orteil.dashnet.org/cookieclicker/"},
+    {nazev: "2048", popis: "Number puzzle", url: "https://play2048.co/"},
+    {nazev: "Mahjong/Solitaire", popis: "Casual at Arkadium", url: "https://www.arkadium.com/games/mahjong/"},
+    {nazev: "Infinite Craft", popis: "Generative puzzle", url: "https://neal.fun/infinite-craft/"}
+];
+
+const today = new Date();
+const index = today.getDate() % hry.length; // každé datum = jiná hra
+const hraDneDiv = document.getElementById("hraDne");
+const hra = hry[index];
+hraDneDiv.innerHTML = `<h2>Hra dne</h2><a href="${hra.url}" target="_blank">${hra.nazev} – ${hra.popis}</a>`;
 </script>
 
 <footer>
