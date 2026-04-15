@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Salmon Sound 🐟🔊</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #0b1b3a;
+}
+
+.salmon {
+  position: absolute;
+  width: 80px;
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+
+// 🔊 preload zvuku (důležité!)
+const bounceSound = new Audio("./sound67.mp3");
+bounceSound.volume = 0.4;
+
+function playSound() {
+  // clone = umožní více zvuků najednou
+  const s = bounceSound.cloneNode();
+  s.play();
+}
+
+function spawnSalmon(x, y) {
+  const img = document.createElement("img");
+  img.src = "./salmon.webp";
+  img.className = "salmon";
+
+  let posX = x;
+  let posY = y;
+
+  let dx = (Math.random() - 0.5) * 10;
+  let dy = (Math.random() - 0.5) * 10;
+  let rot = Math.random() * 360;
+
+  document.body.appendChild(img);
+
+  function animate() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    let bounced = false;
+
+    posX += dx;
+    posY += dy;
+    rot += 8;
+
+    if (posX <= 0 || posX >= w - 80) {
+      dx *= -1;
+      bounced = true;
+    }
+
+    if (posY <= 0 || posY >= h - 80) {
+      dy *= -1;
+      bounced = true;
+    }
+
+    if (bounced) playSound();
+
+    img.style.transform =
+      `translate(${posX}px, ${posY}px) rotate(${rot}deg)`;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+document.addEventListener("click", (e) => {
+  spawnSalmon(e.clientX, e.clientY);
+});
+
+</script>
+
+</body>
+</html>
