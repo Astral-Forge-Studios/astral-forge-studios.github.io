@@ -24,16 +24,43 @@
             font-size: 3rem;
             letter-spacing: 5px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             background: linear-gradient(to right, #ff00cc, #3333ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0px 0px 20px rgba(255, 0, 204, 0.3);
         }
 
-        p {
+        p.slogan {
             color: #888;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Sekce PRÁVĚ HRAJE */
+        .now-playing-box {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .now-playing-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #ff00cc;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .now-playing-title {
+            font-size: 1.1rem;
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .now-playing-title:hover {
+            color: #3333ff;
         }
 
         /* Kontejnér pro přehrávač */
@@ -48,12 +75,11 @@
             text-align: center;
         }
 
-        /* Styl pro samotný iframe */
         iframe {
             border: none;
             border-radius: 10px;
             width: 100%;
-            height: 100px; /* Uprav výšku podle toho, jak vypadá přehrávač Beazone */
+            height: 60px; /* Upraveno pro čistší vzhled */
         }
 
         .footer {
@@ -66,15 +92,33 @@
 <body>
 
     <h1>DOPAMINE</h1>
-    <p>DOPAMINE | Tvoje denní dávka hudební energie. Fresh tracky 24/7.</p>
+    <p class="slogan">Tvoje denní dávka hudební energie. Fresh tracky 24/7.</p>
 
     <div class="player-container">
+        <div class="now-playing-box">
+            <span class="now-playing-label">Právě hraje</span>
+            <a href="https://icecast.beatzone.cz/radio/8500/" target="_blank" class="now-playing-title" id="song-title">
+                Načítám stream...
+            </a>
+        </div>
+
         <iframe src="https://icecast.beatzone.cz/radio/8500/radio.mp3" scrolling="no"></iframe>
     </div>
 
     <div class="footer">
         &copy; 2026 DOPAMINE Radio. Všechna práva vyhrazena.
     </div>
+
+    <script>
+        // Jednoduchá funkce pro zobrazení názvu (pokud server posílá info)
+        // Většina Icecast serverů má status stránku, tohle je základní placeholder
+        function updateSong() {
+            // Zde by mohl být fetch na API tvého Icecastu, pokud máš povolené CORS
+            // Zatím necháme jako statický funkční odkaz
+            document.getElementById('song-title').innerText = "LIVE STREAM (Klikni pro info)";
+        }
+        updateSong();
+    </script>
 
 </body>
 </html>
