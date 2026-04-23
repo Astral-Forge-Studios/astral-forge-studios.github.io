@@ -1,6 +1,5 @@
 const playlist = [
-  "Rihanna - Stay ft. Mikky Ekko",
-  "Imagine Dragons - Radioactive",
+ "Imagine Dragons - Radioactive",
   "Katy Perry - Roar",
   "David Guetta - Titanium ft. Sia",
   "Gotye - Somebody That I Used To Know",
