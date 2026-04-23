@@ -4,82 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DopamineFM</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f0f2d, #1a1a40);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-
-    .player {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      width: 320px;
-    }
-
-    h1 {
-      margin-bottom: 5px;
-      font-size: 28px;
-    }
-
-    .slogan {
-      font-size: 14px;
-      opacity: 0.85;
-      margin-bottom: 15px;
-      font-style: italic;
-    }
-
-    p {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 20px;
-    }
-
-    audio {
-      width: 100%;
-      outline: none;
-    }
-
-    .status {
-      margin-top: 15px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-
-    .footer {
-      margin-top: 20px;
-      font-size: 11px;
-      opacity: 0.6;
-    }
-  </style>
 </head>
-<body>
 
-  <div class="player">
-    <h1>🎧 DopamineFM</h1>
+<body style="background:#111;color:white;font-family:Arial;text-align:center;padding-top:40px;">
 
-    <div class="slogan">"Hudba, která ti zvedne náladu"</div>
+  <h1>🎧 DopamineFM</h1>
+  <p>Hudba, která ti zvedne náladu</p>
 
-    <p>Live stream rádio</p>
+  <audio controls autoplay style="width:300px;">
+    <source src="https://icecast.beatzone.cz/radio/8500/radio.mp3" type="audio/mpeg">
+  </audio>
 
-    <audio controls autoplay>
-      <source src="https://icecast.beatzone.cz/radio/8500/radio.mp3" type="audio/mpeg">
-      Tvůj prohlížeč nepodporuje přehrávání audia.
-    </audio>
+  <h2>🔴 NOW PLAYING</h2>
+  <div id="now">Načítám...</div>
 
-    <div class="status">🔴 LIVE stream</div>
+  <h3>🎵 Playlist</h3>
+  <ul id="playlist"></ul>
 
-    <!-- COPYRIGHT -->
-    <div class="footer">© DopamineRádio 2026</div>
-  </div>
+  <script src="playlist.js"></script>
+
+  <script>
+    // ZOBRAZENÍ PLAYLISTU
+    const list = document.getElementById("playlist");
+
+    playlist.forEach(song => {
+      const li = document.createElement("li");
+      li.textContent = song;
+      list.appendChild(li);
+    });
+
+    // NOW PLAYING (simulace každých 5 sekund)
+    const now = document.getElementById("now");
+    let i = 0;
+
+    function updateNowPlaying() {
+      now.textContent = playlist[i];
+      i = (i + 1) % playlist.length;
+    }
+
+    updateNowPlaying();
+    setInterval(updateNowPlaying, 5000);
+  </script>
 
 </body>
 </html>
