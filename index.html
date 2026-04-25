@@ -22,29 +22,5 @@
   <ul id="playlist"></ul>
 
   <script src="playlist.js"></script>
-
-  <script>
-    // ZOBRAZENÍ PLAYLISTU
-    const list = document.getElementById("playlist");
-
-    playlist.forEach(song => {
-      const li = document.createElement("li");
-      li.textContent = song;
-      list.appendChild(li);
-    });
-
-    // NOW PLAYING (simulace každých 5 sekund)
-    const now = document.getElementById("now");
-    let i = 0;
-
-    function updateNowPlaying() {
-      now.textContent = playlist[i];
-      i = (i + 1) % playlist.length;
-    }
-
-    updateNowPlaying();
-    setInterval(updateNowPlaying, 5000);
-  </script>
-
 </body>
 </html>
