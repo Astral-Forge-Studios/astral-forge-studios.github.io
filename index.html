@@ -3,55 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page not found</title>
+    <title>Radio Dopamine</title>
     <style>
-        body {
-            background-color: #f4f4f9;
-            color: #333;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle, #1a1a2e 0%, #0f0f1b 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .player-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 50px rgba(255, 0, 128, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .player-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: #8a8a9e;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            height: 60px;
+            margin-bottom: 30px;
+        }
+
+        .bar {
+            width: 6px;
+            height: 15px;
+            background-color: #ff007f;
+            border-radius: 3px;
+            transition: height 0.2s ease;
+        }
+
+        /* Animace pro vizualizér, když rádio hraje */
+        .playing .bar {
+            animation: bounce 1.2s ease-in-out infinite alternate;
+        }
+
+        .playing .bar:nth-child(1) { animation-delay: 0.1s; background-color: #ff007f; }
+        .playing .bar:nth-child(2) { animation-delay: 0.4s; background-color: #d4009a; }
+        .playing .bar:nth-child(3) { animation-delay: 0.2s; background-color: #a800b5; }
+        .playing .bar:nth-child(4) { animation-delay: 0.6s; background-color: #7f00ff; }
+        .playing .bar:nth-child(5) { animation-delay: 0.3s; background-color: #a800b5; }
+        .playing .bar:nth-child(6) { animation-delay: 0.5s; background-color: #d4009a; }
+        .playing .bar:nth-child(7) { animation-delay: 0.1s; background-color: #ff007f; }
+
+        @keyframes bounce {
+            0% { height: 10px; }
+            100% { height: 60px; }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
+            border: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.7);
+        }
+
+        .play-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: #ffffff;
+            transition: transform 0.2s;
+        }
+
+        .volume-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            gap: 10px;
         }
-        .container {
-            text-align: center;
-            padding: 20px;
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
         }
-        h1 {
-            font-size: 5rem;
-            margin: 0;
-            color: #ff4757;
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #ff007f;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+            transition: background 0.2s;
         }
-        p {
-            font-size: 1.5rem;
-            margin: 10px 0;
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            background: #7f00ff;
         }
-        .error-msg {
-            color: #747d8c;
-            font-style: italic;
-        }
-        .btn {
-            display: inline-block;
+
+        .status {
+            font-size: 0.85rem;
+            color: #8a8a9e;
             margin-top: 20px;
-            padding: 10px 25px;
-            background-color: #2f3542;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
         }
-        .btn:hover {
-            background-color: #57606f;
+
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #8a8a9e;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .playing .live-dot {
+            background-color: #00ff66;
+            box-shadow: 0 0 8px #00ff66;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Oops!</h1>
-        <p>This page is not on your way :(.</p>
-        <p class="error-msg">error: This page is now off :(</p>
-       </div>
+
+    <div class="player-container" id="playerContainer">
+        <h1>Dopamine</h1>
+        <p class="tagline">Vaše denní dávka energie</p>
+
+        <div class="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="play-btn" id="playBtn" aria-label="Přehrát">
+                <svg id="playIcon" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="volume-container">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8a8a9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.8">
+        </div>
+
+        <div class="status">
+            <span class="live-dot"></span> <span id="statusText">Zastaveno</span>
+        </div>
+    </div>
+
+    <audio id="radioAudio" src="https://icecast.beatzone.cz/radio/8500/radio.mp3" preload="none"></audio>
+
+    <script>
+        const audio = document.getElementById('radioAudio');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const playerContainer = document.getElementById('playerContainer');
+        const statusText = document.getElementById('statusText');
+
+        // Nastavení výchozí hlasitosti
+        audio.volume = volumeSlider.value;
+
+        // Ikona Play a Pause v SVG formátu
+        const playSVG = '<path d="M8 5v14l11-7z"/>';
+        const pauseSVG = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                statusText.textContent = "Připojování...";
+                
+                // Znovu načte stream, aby rádio hrálo live a ne ze staré mezipaměti
+                audio.load(); 
+                
+                audio.play()
+                    .then(() => {
+                        playIcon.innerHTML = pauseSVG;
+                        playerContainer.classList.add('playing');
+                        statusText.textContent = "VYSÍLÁME LIVE";
+                    })
+                    .catch(err => {
+                        console.error("Chyba při spuštění přehrávání:", err);
+                        statusText.textContent = "Chyba připojení";
+                    });
+            } else {
+                audio.pause();
+                playIcon.innerHTML = playSVG;
+                playerContainer.classList.remove('playing');
+                statusText.textContent = "Zastaveno";
+            }
+        });
+
+        // Ovládání hlasitosti
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+    </script>
 </body>
 </html>
